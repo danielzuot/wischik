@@ -395,7 +395,7 @@ main (int argc, char *argv[])
 
   for (int i = 0; i < rack_num_total; i++) {
     for (int j = 0; j < rack_size; j++) {
-      //DynamicCast<PointToPointNetDevice>(c[i].Get (j)->GetDevice(1))->SetLogTxTime(true);
+      DynamicCast<PointToPointNetDevice>(c[i].Get (j)->GetDevice(1))->SetLogTxTime(true);
     }
   }
 
@@ -456,7 +456,7 @@ main (int argc, char *argv[])
           }
 
           sprintf (buffer, "%d.%d.%d.1", 10+i_tmp/(rack_num*l2_num), i_tmp%(rack_num*l2_num), j_tmp);
-          UdpEchoClientHelper echoClient(Ipv4Address(buffer), port);
+          TcpEchoClientHelper echoClient(Ipv4Address(buffer), port);
 
           echoClient.SetAttribute ("RequestDataSize", UintegerValue (maxBytes));
           echoClient.SetAttribute ("MaxPackets", UintegerValue (1));
@@ -528,9 +528,9 @@ main (int argc, char *argv[])
 
             ApplicationContainer pinger = client.Install (c[i].Get (j));
             client.SetFill (pinger.Get (0), 0, 64);
-            //DynamicCast<UdpEchoClient>( pinger.Get(0) ) -> SetSrcDstAddr(i, j, i_tmp, j_tmp);
-            //DynamicCast<UdpEchoClient>( pinger.Get(0) ) -> SetNetworkParam (level_num, rack_size, rack_num, l2_size, l2_num, l3_size, l3_num, l4_size, l4_num, l5_size);
-            //DynamicCast<UdpEchoClient>( pinger.Get(0) ) -> SetRTTinfoStream(streamRTTinfo);
+            DynamicCast<UdpEchoClient>( pinger.Get(0) ) -> SetSrcDstAddr(i, j, i_tmp, j_tmp);
+            DynamicCast<UdpEchoClient>( pinger.Get(0) ) -> SetNetworkParam (level_num, rack_size, rack_num, l2_size, l2_num, l3_size, l3_num, l4_size, l4_num, l5_size);
+            DynamicCast<UdpEchoClient>( pinger.Get(0) ) -> SetRTTinfoStream(streamRTTinfo);
             pingers.Add (pinger);
           }
         }
